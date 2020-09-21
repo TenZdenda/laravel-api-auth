@@ -6,10 +6,15 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+    /**
+     * @param UserStoreRequest $request
+     * @return JsonResponse
+     */
     public function register(UserStoreRequest $request)
     {
         $user = User::create([
@@ -24,6 +29,10 @@ class AuthController extends Controller
         return response()->json(['user' => $user, 'access_token' => $accessToken], 200);
     }
 
+    /**
+     * @param LoginRequest $request
+     * @return JsonResponse
+     */
     public function login(LoginRequest $request)
     {
         $loginData= [
@@ -37,14 +46,17 @@ class AuthController extends Controller
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
 
-        return response(['user' => auth()->user(), 'access_token' => $accessToken], 200);
+        return response()->json(['user' => auth()->user(), 'access_token' => $accessToken], 200);
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function logout()
     {
         auth()->user()->token()->revoke();
 
-        return response()->json(['success' => trans('auth.logout')], self::SUCCESS);
+        return response()->json(['success' => trans('auth.logout')], 200);
     }
 
 }

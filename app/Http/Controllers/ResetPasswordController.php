@@ -7,12 +7,17 @@ use App\Models\User;
 use App\Notifications\PasswordResetRequest;
 use App\Notifications\PasswordResetSuccess;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
 {
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function create(Request $request)
     {
         $request->validate([
@@ -44,6 +49,10 @@ class ResetPasswordController extends Controller
         return response()->json(['message' => trans('passwords.sent')], 200);
     }
 
+    /**
+     * @param $token
+     * @return JsonResponse
+     */
     public function find($token)
     {
         $passwordReset = PasswordReset::where('token', $token)->first();
@@ -73,6 +82,10 @@ class ResetPasswordController extends Controller
         return response()->json(['success' => $response], 200);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function reset(Request $request)
     {
         $request->validate([
