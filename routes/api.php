@@ -23,5 +23,12 @@ Route::get('/find/{token}', [\App\Http\Controllers\ResetPasswordController::clas
 Route::post('/reset', [\App\Http\Controllers\ResetPasswordController::class, 'reset']);
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::resource('users', \App\Http\Controllers\UserController::class);
+
+    Route::get('users', [\App\Http\Controllers\UserController::class, 'index']);
+    Route::get('users/{id}', [\App\Http\Controllers\UserController::class, 'show']);
+
+    Route::post('users', [\App\Http\Controllers\UserController::class, 'store']);
+    Route::post('users/update/{id}', [\App\Http\Controllers\UserController::class, 'update']);
+    Route::post('users/delete/{id}', [\App\Http\Controllers\UserController::class, 'destroy']);
+
 });
