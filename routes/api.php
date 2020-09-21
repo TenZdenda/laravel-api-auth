@@ -20,3 +20,7 @@ Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
 Route::post('/create', [\App\Http\Controllers\ResetPasswordController::class, 'create']);
 Route::get('/find/{token}', [\App\Http\Controllers\ResetPasswordController::class, 'find']);
 Route::post('/reset', [\App\Http\Controllers\ResetPasswordController::class, 'reset']);
+
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::resource('users', \App\Http\Controllers\UserController::class);
+});
