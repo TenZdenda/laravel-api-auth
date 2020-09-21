@@ -39,4 +39,12 @@ class AuthController extends Controller
 
         return response(['user' => auth()->user(), 'access_token' => $accessToken], 200);
     }
+
+    public function logout()
+    {
+        auth()->user()->token()->revoke();
+
+        return response()->json(['success' => trans('auth.logout')], self::SUCCESS);
+    }
+
 }
